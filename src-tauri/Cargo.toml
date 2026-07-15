@@ -1,0 +1,36 @@
+[package]
+name = "alias-manager"
+version = "1.0.0"
+description = "别名管理器"
+authors = ["Taoist"]
+edition = "2021"
+
+[lib]
+name = "alias_manager_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = "0.4"
+uuid = { version = "1", features = ["v4"] }
+base64 = "0.22"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+windows-sys = { version = "0.59", features = [
+  "Win32_System_Registry",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_Foundation",
+] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
